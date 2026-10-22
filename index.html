@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyPilot | Smart Study Planner</title>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --panel: #141c31;
+            --border: #26334f;
+            --text: #f1f4ff;
+            --muted: #9ba8c7;
+            --accent: #a99aff;
+            --green: #73e0bd;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, "Segoe UI", sans-serif;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 22px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .tag {
+            font-size: 12px;
+            color: var(--green);
+            background: #17332f;
+            padding: 8px 12px;
+            border-radius: 20px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 42px 22px;
+        }
+
+        .hero {
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: clamp(30px, 5vw, 46px);
+            margin: 12px 0;
+        }
+
+        .hero p,
+        .muted {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin: 0 0 8px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: #c8d0e8;
+            margin: 17px 0 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #0d1426;
+            color: white;
+            font: inherit;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+        }
+
+        .fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 13px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #17132b;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            filter: brightness(1.08);
+        }
+
+        .result {
+            margin-top: 18px;
+            padding: 16px;
+            border-radius: 12px;
+            background: #0d1426;
+            border: 1px solid var(--border);
+            display: none;
+        }
+
+        .result h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+        }
+
+        .result p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .stat {
+            background: #0d1426;
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .stat small {
+            color: var(--muted);
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 25px;
+            margin-top: 9px;
+        }
+
+        .stat strong.purple {
+            color: var(--accent);
+        }
+
+        .stat strong.green {
+            color: var(--green);
+        }
+
+        .progress {
+            height: 7px;
+            background: #26334f;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress div {
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+            transition: width .4s;
+        }
+
+        .tip {
+            margin-top: 18px;
+            padding: 16px;
+            border-left: 3px solid var(--green);
+            background: #102722;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #7784a3;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 18px 22px;
+            }
+
+            main {
+                padding-top: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Study<span>Pilot</span> ✦</div>
+        <div class="tag">SMART STUDY PLANNER</div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="eyebrow">Your personal study assistant</div>
+            <h1>Study smarter.<br><span style="color:var(--accent)">Stress less.</span></h1>
+            <p>Understand your workload, predict your study timeline, and discover what to focus on next.</p>
+        </section>
+
+        <div class="layout">
+            <section class="panel">
+                <h2>Plan your workload</h2>
+                <p class="muted">Enter your study details to get a personalised estimate.</p>
+
+                <form id="studyForm">
+                    <label for="subject">Subject name</label>
+                    <input id="subject" placeholder="e.g. Machine Learning" required maxlength="60">
+
+                    <div class="fields">
+                        <div>
+                            <label for="chapters">Chapters remaining</label>
+                            <input id="chapters" type="number" min="1" max="500" value="5" required>
+                        </div>
+                        <div>
+                            <label for="hours">Hours per chapter</label>
+                            <input id="hours" type="number" min="0.25" max="100" step="0.25" value="2" required>
+                        </div>
+                    </div>
+
+                    <div class="fields">
+                        <div>
+                            <label for="daily">Study hours per day</label>
+                            <input id="daily" type="number" min="0.5" max="24" step="0.5" value="3" required>
+                        </div>
+                        <div>
+                            <label for="deadline">Deadline</label>
+                            <input id="deadline" type="date" required>
+                        </div>
+                    </div>
+
+                    <button type="submit">Predict My Study Plan ↗</button>
+                </form>
+
+                <div class="result" id="result" aria-live="polite"></div>
+            </section>
+
+            <section class="panel">
+                <h2>Your study insights</h2>
+                <p class="muted">Your prediction will appear here after you submit your details.</p>
+
+                <div class="stats">
+                    <div class="stat">
+                        <small>Total workload</small>
+                        <strong class="purple" id="totalHours">—</strong>
+                        <small>estimated hours</small>
+                    </div>
+                    <div class="stat">
+                        <small>Study duration</small>
+                        <strong class="green" id="duration">—</strong>
+                        <small>days needed</small>
+                    </div>
+                    <div class="stat">
+                        <small>Time available</small>
+                        <strong id="available">—</strong>
+                        <small>hours before deadline</small>
+                    </div>
+                    <div class="stat">
+                        <small>Plan status</small>
+                        <strong id="status" style="font-size:19px">—</strong>
+                        <small>based on your inputs</small>
+                    </div>
+                </div>
+
+                <label>Deadline readiness</label>
+                <div class="progress">
+                    <div id="progressBar"></div>
+                </div>
+                <p class="muted" id="progressText">Complete the form to calculate your readiness.</p>
+
+                <div class="tip" id="tip">
+                    <strong>✦ Study tip</strong><br>
+                    Break large chapters into smaller sessions and take short breaks between them.
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>StudyPilot · Plan with purpose, learn with confidence.</footer>
+
+    <script>
+        const form = document.getElementById("studyForm");
+        const deadlineInput = document.getElementById("deadline");
+
+        // Set the default deadline to seven days from today.
+        const defaultDeadline = new Date();
+        defaultDeadline.setDate(defaultDeadline.getDate() + 7);
+        deadlineInput.value = [
+            defaultDeadline.getFullYear(),
+            String(defaultDeadline.getMonth() + 1).padStart(2, "0"),
+            String(defaultDeadline.getDate()).padStart(2, "0")
+        ].join("-");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const subject = document.getElementById("subject").value.trim();
+            const chapters = Number(document.getElementById("chapters").value);
+            const hoursPerChapter = Number(document.getElementById("hours").value);
+            const dailyHours = Number(document.getElementById("daily").value);
+            const deadline = new Date(deadlineInput.value + "T23:59:59");
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (!subject || chapters < 1 || hoursPerChapter <= 0 || dailyHours <= 0) {
+                alert("Please enter valid study details.");
+                return;
+            }
+
+            const daysLeft = Math.max(0, Math.ceil((deadline - today) / 86400000));
+            const totalHours = chapters * hoursPerChapter;
+            const duration = Math.ceil(totalHours / dailyHours);
+            const availableHours = daysLeft * dailyHours;
+            const readiness = totalHours === 0 ? 100 :
+                Math.min(100, Math.round((availableHours / totalHours) * 100));
+            const onTrack = deadline >= today && totalHours <= availableHours;
+
+            document.getElementById("totalHours").textContent = totalHours.toLocaleString();
+            document.getElementById("duration").textContent = duration;
+            document.getElementById("available").textContent = availableHours;
+            document.getElementById("status").textContent = onTrack ? "On track" : "At risk";
+            document.getElementById("status").style.color = onTrack ? "var(--green)" : "#ff9b9b";
+            document.getElementById("progressBar").style.width = readiness + "%";
+            document.getElementById("progressText").textContent =
+                readiness + "% workload capacity available before your deadline.";
+
+            const result = document.getElementById("result");
+            result.style.display = "block";
+            result.innerHTML = "";
+
+            const heading = document.createElement("h3");
+            heading.textContent = onTrack ? "Your plan looks achievable!" : "Let's adjust your plan.";
+            const message = document.createElement("p");
+            message.textContent = onTrack
+                ? "You can likely finish " + subject + " in about " + duration +
+                " study days if you consistently study " + dailyHours + " hours per day."
+                : "You need about " + totalHours + " hours for " + subject +
+                ", but have only " + availableHours + " planned study hours before the deadline. Consider more daily study time or prioritising key chapters.";
+            result.append(heading, message);
+
+            const tip = document.getElementById("tip");
+            tip.replaceChildren();
+            const tipTitle = document.createElement("strong");
+            tipTitle.textContent = "✦ Your recommendation";
+            const tipText = document.createElement("div");
+            tipText.textContent = onTrack
+                ? "Study " + Math.min(chapters, Math.ceil(dailyHours / hoursPerChapter)) +
+                " chapter(s) per day, then reserve your final session for revision and practice questions."
+                : "Start with the most important or difficult chapters. Try splitting your daily study time into focused sessions, and review your deadline if possible.";
+            tip.append(tipTitle, document.createElement("br"), tipText);
+        });
+    </script>
+</body>
+
+</html>
